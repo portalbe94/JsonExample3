@@ -1,10 +1,16 @@
 package com.example.business.recycleviewjsonexample;
 
+import android.app.DownloadManager;
+import android.app.SearchManager;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.Button;
+import android.widget.SearchView;
+import android.widget.Toolbar;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -20,14 +26,20 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements ExampleAdapter.OnItemClickListener {
+
     public static final String EXTRA_URL = "imageURL";
     public static final String EXTRA_CREATOR = "creatorName";
     public static final String EXTRA_LIKES = "likeCount";
+
+
+
 
     private RecyclerView mRecyclerView;
     private ExampleAdapter mExampleAdapter;
     private ArrayList<ExampleItem> mExampleList;
     private RequestQueue mRequestQueue;
+
+    private SearchView mSearchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,13 +52,21 @@ public class MainActivity extends AppCompatActivity implements ExampleAdapter.On
 
         mExampleList = new ArrayList<>();
 
-        mRequestQueue = Volley.newRequestQueue(this);
-        parseJSON();
+        mSearchView = (SearchView) findViewById(R.id.button);
 
+        mRequestQueue = Volley.newRequestQueue(this);
+        //parseJSON();
+        mSearchView.setOnSearchClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                parseJSON();// TODO Auto-generated method stub
+            }
+        });
     }
 
     private void parseJSON() {
-        String url = "http://api.walmartlabs.com/v1/search?format=json&apiKey=3kgshhj4nr73xrzfmcbthwwb&query=ipod";
+        String url = "http://api.walmartlabs.com/v1/search?apiKey=3kgshhj4nr73xrzfmcbthwwb&query=";
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
@@ -65,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements ExampleAdapter.On
                                 mExampleList.add(new ExampleItem(items, name, salePrice));
                             }
 
-                           mExampleAdapter = new ExampleAdapter(MainActivity.this, mExampleList);
+                            mExampleAdapter = new ExampleAdapter(MainActivity.this, mExampleList);
                             mRecyclerView.setAdapter(mExampleAdapter);
                             mExampleAdapter.setOnItemClickListener(MainActivity.this);
 

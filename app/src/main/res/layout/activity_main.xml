@@ -23,9 +23,32 @@
         android:id="@+id/button"
         android:layout_width="355dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
+        android:layout_above="@+id/recycler_view"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="-110dp" />
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="15dp" />
+        android:layout_toStartOf="@+id/button2"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Name"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="55dp"
+        android:text="Search" />
 
 
 </RelativeLayout>

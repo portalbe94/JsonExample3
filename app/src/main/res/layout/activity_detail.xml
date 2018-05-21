@@ -6,21 +6,21 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".DetailActivity">
-    
+
     <ImageView
         android:id="@+id/image_view_detail"
-        android:layout_width="match_parent"
-        android:layout_height="300dp" />
+        android:layout_width="100dp"
+        android:layout_height="100dp" />
 
     <TextView
         android:id="@+id/text_view_creator_detail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Product"
-        android:textSize="40sp"
-        android:textColor="@android:color/black"
+        android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"/>
+        android:text="Product"
+        android:textColor="@android:color/black"
+        android:textSize="40sp" />
 
     <TextView
         android:id="@+id/text_view_likes_detail"

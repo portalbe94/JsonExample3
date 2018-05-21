@@ -3,6 +3,7 @@ package com.example.business.recycleviewjsonexample;
 import android.app.DownloadManager;
 import android.app.SearchManager;
 import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -34,13 +35,17 @@ public class MainActivity extends AppCompatActivity implements ExampleAdapter.On
     public static final String EXTRA_CREATOR = "creatorName";
     public static final String EXTRA_LIKES = "likeCount";
 
+    private ShoppingDbHelper db;
+
     Button btn;
     EditText edt;
     TextView txtView;
+    Button cart;
 
 
     private RecyclerView mRecyclerView;
     private ExampleAdapter mExampleAdapter;
+    private CartActivity mCartActivity;
     private ArrayList<ExampleItem> mExampleList;
     private RequestQueue mRequestQueue;
     public static final String BASE_URL = "http://api.walmartlabs.com/v1/search?apiKey=3kgshhj4nr73xrzfmcbthwwb&query=";
@@ -52,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements ExampleAdapter.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        db = new ShoppingDbHelper(this);
 
 
 
@@ -94,13 +100,15 @@ public class MainActivity extends AppCompatActivity implements ExampleAdapter.On
                                 String name = item.getString("name");
                                 String items = item.getString("thumbnailImage");
                                 int salePrice = item.getInt("salePrice");
+                                int itemId = item.getInt("itemId");
 
-                                mExampleList.add(new ExampleItem(items, name, salePrice));
+                                mExampleList.add(new ExampleItem(items, name, salePrice, itemId));
                             }
 
                             mExampleAdapter = new ExampleAdapter(MainActivity.this, mExampleList);
                             mRecyclerView.setAdapter(mExampleAdapter);
                             mExampleAdapter.setOnItemClickListener(MainActivity.this);
+
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -130,14 +138,28 @@ public class MainActivity extends AppCompatActivity implements ExampleAdapter.On
 
     @Override
     public void onItemClick(int position) {
-        Intent detailIntent = new Intent(this, DetailActivity.class);
+        final Intent detailIntent = new Intent(this, DetailActivity.class);
         ExampleItem clickedItem = mExampleList.get(position);
-
+        long returnid = db.addItem(clickedItem.getmNumber(), clickedItem.getImageUrl());
         detailIntent.putExtra(EXTRA_URL, clickedItem.getImageUrl());
         detailIntent.putExtra(EXTRA_CREATOR, clickedItem.getCreator());
         detailIntent.putExtra(EXTRA_LIKES, clickedItem.getLikeCount());
+        String message = "Item Already Added";
+        if (returnid > 0) {message = "Item Added";}
+        Snackbar.make(mRecyclerView, message, Snackbar.LENGTH_LONG)
 
-        startActivity(detailIntent);
+                .setAction("Action", null).addCallback(new Snackbar.Callback() {
+            @Override
+            public void onDismissed(Snackbar snackbar, int event) {
+                startActivity(detailIntent);
+            }
+        }).show();
 
     }
+
+
+
+
+
+
 }

@@ -4,11 +4,13 @@ public class ExampleItem {
     private String mImageUrl;
     private String mCreator;
     private int mLikes;
+    private int mNumber;
 
-    public ExampleItem(String imageUrl, String Product, int SalePrice) {
+    public ExampleItem(String imageUrl, String Product, int SalePrice, int itemId) {
         mImageUrl = imageUrl;
         mCreator = Product;
         mLikes = SalePrice;
+        mNumber = itemId;
 
     }
 
@@ -23,5 +25,7 @@ public class ExampleItem {
     public int getLikeCount() {
         return mLikes;
     }
+
+    public int getmNumber() { return mNumber; }
 
 }

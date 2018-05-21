@@ -18,11 +18,15 @@ public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ExampleV
     private ArrayList<ExampleItem> mExampleList;
     private OnItemClickListener mListener;
 
+
     public interface OnItemClickListener {
         void OnItemClick(int position);
 
         void onItemClick(int position);
+
     }
+
+
 
     public void setOnItemClickListener(OnItemClickListener listener) {
         mListener = listener;
@@ -78,6 +82,7 @@ public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ExampleV
                         int position = getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION) {
                             mListener.onItemClick(position);
+                            //mListener.onItemDelete(position);
                         }
                     }
                 }
